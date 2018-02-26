@@ -1,3 +1,4 @@
+'use strict'
 var Bleacon = require('bleacon');
 var async = require('async');
 var nforce = require('nforce');
