@@ -1,4 +1,5 @@
-'use strict'
+//'use strict'
+// disabling strict mode
 var Bleacon = require('bleacon');
 var async = require('async');
 var nforce = require('nforce');
@@ -18,6 +19,26 @@ var org = nforce.createConnection({
     autoRefresh: true
 });
 
+var postAssetEvent = function(beacon) {
+    let event = nforce.createSObject('ACC_Event__e');
+    event.set('Auto_Bay_UID__c', 'FFEE99AA44');
+    event.set('Part_UID__c', Bleacon.uuid);
+    event.set('Part_Major__c', Bleacon.major);
+    event.set('Part_Minor__c', Bleacon.minor);
+    event.set('Proximity__c', Bleacon.proximity);
+    event.set('RSSI__c', Bleacon.rssi);
+    event.set('Accuracy__c', Bleacon.accuracy);
+    event.set('measuredPower__c', Bleacon.measuredPower);
+    org.insert({sobject: event}, err => {
+        if (err) {
+            console.error(err);
+        } else {
+            console.log("Mix_Approved__e published");
+        }
+    });
+
+};
+
 org.authenticate({
     username: process.env.SFDC_USER,
     password: process.env.SFDC_PASS,
@@ -25,25 +46,7 @@ org.authenticate({
 }, function (err, oauth) {
     if (err) return console.log(err);
 
-    var postAssetEvent = function(beacon) {
-        let event = nforce.createSObject('ACC_Event__e');
-        event.set('Auto_Bay_UID__c', 'FFEE99AA44');
-        event.set('Part_UID__c', Bleacon.uuid);
-        event.set('Part_Major__c', Bleacon.major);
-        event.set('Part_Minor__c', Bleacon.minor);
-        event.set('Proximity__c', Bleacon.proximity);
-        event.set('RSSI__c', Bleacon.rssi);
-        event.set('Accuracy__c', Bleacon.accuracy);
-        event.set('measuredPower__c', Bleacon.measuredPower);
-        org.insert({sobject: event}, err => {
-            if (err) {
-                console.error(err);
-            } else {
-                console.log("Mix_Approved__e published");
-            }
-        });
-
-    };
+    
 
     Bleacon.on('discover', function (beacon) {
         // check for local beacons: 
