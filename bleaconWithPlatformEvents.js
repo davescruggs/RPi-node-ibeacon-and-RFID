@@ -24,13 +24,13 @@ var postAssetEvent = function (beacon) {
     console.log('sending beacon signal to SFDC');
     var event = nforce.createSObject('ACC_Event__e');
     event.set('Auto_Bay_UID__c', 'FFEE99AA44');
-    event.set('Part_UID__c', Bleacon.uuid);
-    event.set('Part_Major__c', Bleacon.major);
-    event.set('Part_Minor__c', Bleacon.minor);
-    event.set('Proximity__c', Bleacon.proximity);
-    event.set('RSSI__c', Bleacon.rssi);
-    event.set('Accuracy__c', Bleacon.accuracy);
-    event.set('measuredPower__c', Bleacon.measuredPower);
+    event.set('Part_UID__c', beacon.uuid);
+    event.set('Part_Major__c', beacon.major);
+    event.set('Part_Minor__c', beacon.minor);
+    event.set('Proximity__c', beacon.proximity);
+    event.set('RSSI__c', beacon.rssi);
+    event.set('Accuracy__c', beacon.accuracy);
+    event.set('measuredPower__c', beacon.measuredPower);
     org.insert({
         sobject: event, oauth: oauth
     }, err => {
