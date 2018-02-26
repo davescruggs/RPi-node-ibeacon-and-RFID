@@ -19,8 +19,8 @@ var org = nforce.createConnection({
     autoRefresh: true
 });
 
-var postAssetEvent = function(beacon) {
-    let event = nforce.createSObject('ACC_Event__e');
+var postAssetEvent = function (beacon) {
+    var event = nforce.createSObject('ACC_Event__e');
     event.set('Auto_Bay_UID__c', 'FFEE99AA44');
     event.set('Part_UID__c', Bleacon.uuid);
     event.set('Part_Major__c', Bleacon.major);
@@ -29,7 +29,9 @@ var postAssetEvent = function(beacon) {
     event.set('RSSI__c', Bleacon.rssi);
     event.set('Accuracy__c', Bleacon.accuracy);
     event.set('measuredPower__c', Bleacon.measuredPower);
-    org.insert({sobject: event}, err => {
+    org.insert({
+        sobject: event
+    }, err => {
         if (err) {
             console.error(err);
         } else {
@@ -46,30 +48,30 @@ org.authenticate({
 }, function (err, oauth) {
     if (err) return console.log(err);
 
-    
+
 
     Bleacon.on('discover', function (beacon) {
         // check for local beacons: 
         console.log('discovered beacon:\n', JSON.stringify(beacon, null, 2));
-        postAssetEvent(beacon); 
+        postAssetEvent(beacon);
     });
 
     Bleacon.on('found', function (beacon) {
         // check for local beacons: 
         console.log('found beacon:\n', JSON.stringify(beacon, null, 2));
-        postAssetEvent(beacon); 
+        postAssetEvent(beacon);
     });
 
     Bleacon.on('updated', function (beacon) {
         // check for local beacons: 
         console.log('updated beacon:\n', JSON.stringify(beacon, null, 2));
-        postAssetEvent(beacon); 
+        postAssetEvent(beacon);
     });
 
     Bleacon.on('lost', function (beacon) {
         // check for local beacons: 
         console.log('updated beacon:\n', JSON.stringify(beacon, null, 2));
-        postAssetEvent(beacon); 
+        postAssetEvent(beacon);
     });
 
     Bleacon.startScanning();
