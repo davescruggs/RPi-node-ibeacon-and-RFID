@@ -23,7 +23,7 @@ var org = nforce.createConnection({
 var postAssetEvent = function (beacon) {
     console.log('sending beacon signal to SFDC');
     var event = nforce.createSObject('ACC_Event__e');
-    event.set('Auto_Bay_UID__c', 'FFEE99AA44');
+    event.set('Auto_Bay_UID__c', '1N6DD26T24C419049'); // Vehicle 100 000
     event.set('Part_UID__c', beacon.uuid);
     event.set('Part_Major__c', beacon.major);
     event.set('Part_Minor__c', beacon.minor);
