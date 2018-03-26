@@ -31,6 +31,13 @@ var postAssetEvent = function (beacon) {
     event.set('RSSI__c', beacon.rssi);
     event.set('Accuracy__c', beacon.accuracy);
     event.set('measuredPower__c', beacon.measuredPower);
+    if( beacon.uuid == '2f234454cf6d4a0fadf2f4911ba9ffa6') {
+       console.log('vehicle entering bay');
+       event.set('VIN__c', '1N6DD26T24C419049'); // otherwise VIN is not set;
+    } else {
+       event.set('VIN__c', ''); // otherwise VIN is not set;
+       console.log('tire detected');
+    }
     org.insert({
         sobject: event, oauth: oauth
     }, err => {
